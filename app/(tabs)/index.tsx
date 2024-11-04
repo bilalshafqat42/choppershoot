@@ -1,70 +1,135 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from "react";
+import {
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const screenWidth = Dimensions.get("window").width;
+
+const dummyData = [
+  {
+    id: "1",
+    title: "Explore the Mountains",
+    image: require("@/assets/images/white-icon.png"),
+    link: "/expolore",
+  },
+  {
+    id: "2",
+    title: "Cityscape Views",
+    image: require("@/assets/images/white-icon.png"),
+    link: "/expolore",
+  },
+  {
+    id: "3",
+    title: "Beach Paradise",
+    image: require("@/assets/images/white-icon.png"),
+    link: "https://example.com/beach",
+  },
+  {
+    id: "4",
+    title: "Night Sky",
+    image: require("@/assets/images/white-icon.png"),
+    link: "https://example.com/nightsky",
+  },
+];
 
 export default function HomeScreen() {
+  const renderHeader = () => (
+    <ThemedView style={styles.titleContainer}>
+      <Image
+        source={require("@/assets/images/white-icon.png")}
+        style={styles.headerImage}
+        resizeMode="contain"
+      />
+      <ThemedText type="title" style={styles.headerTitle}>
+        CHOPPERSHOOT
+      </ThemedText>
+      <ThemedText style={styles.description}>
+        Discover breathtaking landscapes and vibrant cityscapes with
+        ChopperShoot.
+      </ThemedText>
+    </ThemedView>
+  );
+
+  const handlePress = (link: string) => {
+    Linking.openURL(link).catch((err) =>
+      console.error("Failed to open link:", err)
+    );
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <FlatList
+      data={dummyData}
+      keyExtractor={(item) => item.id}
+      numColumns={2}
+      ListHeaderComponent={renderHeader}
+      contentContainerStyle={styles.listContainer}
+      renderItem={({ item }) => (
+        <TouchableOpacity
+          onPress={() => handlePress(item.link)}
+          style={styles.itemContainer}
+        >
+          <Image source={item.image} style={styles.image} />
+          <Text style={styles.itemTitle}>{item.title}</Text>
+        </TouchableOpacity>
+      )}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    padding: 20,
+    backgroundColor: "#000",
+    alignItems: "center",
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#fff",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  description: {
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  headerImage: {
+    width: screenWidth * 0.6,
+    height: screenWidth * 0.6,
+    alignSelf: "center",
+  },
+  listContainer: {
+    paddingHorizontal: 10,
+    paddingBottom: 20,
+  },
+  itemContainer: {
+    flex: 1,
+    margin: 4,
+    backgroundColor: "#f8f8f8",
+    borderRadius: 8,
+    padding: 10,
+    alignItems: "center",
+  },
+  image: {
+    width: screenWidth * 0.4,
+    height: screenWidth * 0.4,
+    borderRadius: 8,
+    marginBottom: 5,
+  },
+  itemTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+    textAlign: "center",
   },
 });
