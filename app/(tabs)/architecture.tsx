@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   Image,
@@ -7,6 +7,7 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
+  Modal,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -77,15 +78,25 @@ const getImageSource = (id) => {
     "57": require("../../assets/images/arch/57.jpg"),
     "58": require("../../assets/images/arch/58.jpg"),
     "59": require("../../assets/images/arch/59.jpg"),
+    // Add other images as needed...
   };
   return imageMap[id] || require("../../assets/images/arch/1.jpg");
 };
 
 export default function Architecture() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   // Render each image item
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
-      <TouchableOpacity style={styles.linkContainer}>
+      <TouchableOpacity
+        style={styles.linkContainer}
+        onPress={() => {
+          setSelectedImage(getImageSource(item.id));
+          setModalVisible(true);
+        }}
+      >
         <Image source={getImageSource(item.id)} style={styles.image} />
         <Text style={styles.itemTitle}>{item.title}</Text>
       </TouchableOpacity>
@@ -120,6 +131,28 @@ export default function Architecture() {
         numColumns={3}
         contentContainerStyle={styles.listContainer}
       />
+
+      {/* Modal for image zoom */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={styles.modalCloseButton}
+            onPress={() => setModalVisible(false)}
+          >
+            <Text style={styles.modalCloseButtonText}>✕</Text>
+          </TouchableOpacity>
+          <Image
+            source={selectedImage}
+            style={styles.modalImage}
+            resizeMode="contain"
+          />
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -181,5 +214,25 @@ const styles = StyleSheet.create({
   },
   linkContainer: {
     alignItems: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.9)", // Dark overlay for modal
+  },
+  modalCloseButton: {
+    position: "absolute",
+    top: 40,
+    right: 20,
+    zIndex: 1,
+  },
+  modalCloseButtonText: {
+    fontSize: 30,
+    color: "#fff",
+  },
+  modalImage: {
+    width: "100%",
+    height: "100%",
   },
 });
