@@ -1,124 +1,152 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { StyleSheet, Image, Platform } from "react-native";
-
-import { Collapsible } from "@/components/Collapsible";
-import { ExternalLink } from "@/components/ExternalLink";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
+import React from "react";
+import {
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  View,
+  ScrollView,
+} from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { Link } from "expo-router";
 
-export default function TabThreeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
-      headerImage={
-        <Ionicons size={310} name="construct" style={styles.headerImage} />
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>
-        This app includes example code to help you get started.
+const itemWidth = 400;
+const itemHeight = 600;
+
+const dummyData = [
+  {
+    id: "1",
+    title: "Explore the Mountains",
+    imageUrl: require("../../assets/images/gallery.jpg"),
+    link: "/explore",
+  },
+  {
+    id: "2",
+    title: "Cityscape Views",
+    imageUrl: require("../../assets/images/gallery.jpg"),
+    link: "/explore",
+  },
+  {
+    id: "3",
+    title: "Beach Paradise",
+    imageUrl: require("../../assets/images/gallery.jpg"),
+    link: "/explore",
+  },
+  {
+    id: "4",
+    title: "Night Sky",
+    imageUrl: require("../../assets/images/gallery.jpg"),
+    link: "/explore",
+  },
+];
+
+export default function PortfolioScreen() {
+  const renderHeader = () => (
+    <ThemedView style={styles.titleContainer}>
+      <Image
+        source={require("../../assets/images/white-icon.png")}
+        style={styles.headerImage}
+        resizeMode="contain"
+      />
+      <ThemedText type="title" style={styles.headerTitle}>
+        CHOPPERSHOOT
       </ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          and{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{" "}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the
-          web version, press <ThemedText type="defaultSemiBold">w</ThemedText>{" "}
-          in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the{" "}
-          <ThemedText type="defaultSemiBold">@2x</ThemedText> and{" "}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to
-          provide files for different screen densities
-        </ThemedText>
-        <Image
-          source={require("@/assets/images/react-logo.png")}
-          style={{ alignSelf: "center" }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText>{" "}
-          to see how to load{" "}
-          <ThemedText style={{ fontFamily: "SpaceMono" }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{" "}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook
-          lets you inspect what the user's current color scheme is, and so you
-          can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{" "}
-          <ThemedText type="defaultSemiBold">
-            components/HelloWave.tsx
-          </ThemedText>{" "}
-          component uses the powerful{" "}
-          <ThemedText type="defaultSemiBold">
-            react-native-reanimated
-          </ThemedText>{" "}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The{" "}
-              <ThemedText type="defaultSemiBold">
-                components/ParallaxScrollView.tsx
-              </ThemedText>{" "}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+      <ThemedText style={styles.description}>
+        Discover breathtaking landscapes and vibrant cityscapes with
+        ChopperShoot.
+      </ThemedText>
+    </ThemedView>
+  );
+
+  return (
+    <ScrollView style={styles.container}>
+      {renderHeader()}
+      <FlatList
+        data={dummyData}
+        keyExtractor={(item) => item.id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.carouselContainer}
+        renderItem={({ item }) => (
+          <Link href={item.link} style={styles.linkContainer}>
+            <View style={styles.itemContainer}>
+              <Image source={item.imageUrl} style={styles.image} />
+              <Text style={styles.itemTitle}>{item.title}</Text>
+            </View>
+          </Link>
+        )}
+        snapToAlignment="center"
+        snapToInterval={itemWidth + 20} // Adds spacing between items for snapping
+        decelerationRate="fast"
+      />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: "#808080",
-    bottom: -90,
-    left: -35,
-    position: "absolute",
+  container: {
+    flex: 1,
+    backgroundColor: "#000", // Black background for the entire screen
   },
   titleContainer: {
-    flexDirection: "row",
-    gap: 8,
+    paddingTop: 40,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    backgroundColor: "#000",
+    alignItems: "center",
+  },
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#fff",
+    marginTop: 15,
+  },
+  description: {
+    fontSize: 18,
+    color: "#fff",
+    textAlign: "center",
+    marginTop: 15,
+    marginBottom: 25,
+  },
+  headerImage: {
+    width: 300,
+    height: 300,
+    alignSelf: "center",
+  },
+  carouselContainer: {
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+  },
+  itemContainer: {
+    width: itemWidth,
+    height: itemHeight,
+    marginHorizontal: 10,
+    backgroundColor: "#000", // Darker background for items
+    borderRadius: 10,
+    padding: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  image: {
+    width: itemWidth - 40,
+    height: itemHeight - 100,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  itemTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  linkContainer: {
+    flex: 1,
   },
 });
