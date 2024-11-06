@@ -17,27 +17,27 @@ const itemSize = (width - 40) / 2; // Calculate size for two columns
 const dummyData = [
   {
     id: "1",
-    title: "Explore the Mountains",
+    title: "AERIAL IMAGES",
     imageUrl: require("../../assets/images/white-icon.png"),
-    link: "/explore",
+    link: "/architecture",
   },
   {
     id: "2",
-    title: "Cityscape Views",
+    title: "AERIAL VIDEOS",
     imageUrl: require("../../assets/images/white-icon.png"),
-    link: "/explore",
+    link: "/architecture",
   },
   {
     id: "3",
-    title: "Beach Paradise",
+    title: "GROUND IMAGES",
     imageUrl: require("../../assets/images/white-icon.png"),
-    link: "/explore",
+    link: "/architecture",
   },
   {
     id: "4",
-    title: "Night Sky",
+    title: "GROUND VIDEOS",
     imageUrl: require("../../assets/images/white-icon.png"),
-    link: "/explore",
+    link: "/architecture",
   },
 ];
 
@@ -137,13 +137,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   itemTitle: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 12,
+    fontWeight: "400",
     color: "#fff",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   linkContainer: {
     flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+    marginBottom: 10,
   },
 });

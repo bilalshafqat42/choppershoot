@@ -661,7 +661,6 @@ export default function Architecture() {
         numColumns={3}
         contentContainerStyle={styles.listContainer}
       />
-
       {/* Modal for draggable image slider */}
       <Modal
         animationType="slide"
