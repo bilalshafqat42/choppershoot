@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "Saudi Arabia",
+    "imageUrl": "../assets/images/arch/ksa/1.jpg",
+    "link": "/ksaArchitect"
+  },
+  {
+    "id": "2",
+    "title": "Abu Dubai",
+    "imageUrl": "../assets/images/arch/ksa/2.jpg",
+    "link": "/dubaiArchitect"
+  },
+  {
+    "id": "3",
+    "title": "Dubai",
+    "imageUrl": "../assets/images/arch/ksa/3.jpg",
+    "link": "/dubaiArchitect"
+  }
+]
