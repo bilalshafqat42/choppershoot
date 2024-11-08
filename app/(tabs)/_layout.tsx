@@ -72,6 +72,30 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="architecture/dubai-architect"
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="architecture/abu-dhabi-architect"
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="architecture/ksa-architect"
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
     </Tabs>
   );
 }
